@@ -1,3 +1,4 @@
+import os
 import logging
 from datetime import datetime
 
@@ -6,6 +7,7 @@ from bedrock_agentcore.memory import MemoryClient
 from bedrock_agentcore.memory.constants import StrategyType
 from botocore.exceptions import ClientError
 from strands import Agent, tool
+from strands_tools import retrieve
 from strands_tools.agent_core_memory import AgentCoreMemoryToolProvider
 from strands.models import BedrockModel
 
@@ -16,6 +18,8 @@ logger = logging.getLogger("culinary-memory")
 
 app = BedrockAgentCoreApp()
 
+
+os.environ["STRANDS_KNOWLEDGE_BASE_ID"] = "ANR2F7LXJS"
 
 model = BedrockModel(
     model_id="anthropic.claude-3-5-sonnet-20241022-v2:0",
@@ -90,15 +94,11 @@ strands_provider = AgentCoreMemoryToolProvider(
     namespace=namespace
 )
 
-# Add the Bedrock knowledge model
-knowledge_model_id = "ANR2F7LXJS"
-
 # Initialize the agent with the model, system prompt, tools, and knowledge model
 agent = Agent(
     model=model,
     system_prompt=KITCHEN_ASSISTANT_PROMPT,
-    tools=[strands_provider.tools, look_into_fridge],
-    knowledge_model_id=knowledge_model_id
+    tools=[strands_provider.tools, look_into_fridge, retrieve],
 )
 
 @app.entrypoint
