@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
 WORKDIR /app
 
 # Configure UV for container environment
@@ -6,7 +6,7 @@ ENV UV_SYSTEM_PYTHON=1 UV_COMPILE_BYTECODE=1
 
 
 
-COPY ../../Downloads/Strands .
+COPY . .
 # Install from pyproject.toml directory
 RUN cd . && uv pip install .
 
@@ -33,8 +33,8 @@ EXPOSE 8080
 EXPOSE 8000
 
 # Copy entire project (respecting .dockerignore)
-COPY ../../Downloads/Strands .
+COPY . .
 
 # Use the full module path
 
-CMD ["opentelemetry-instrument", "python", "-m", "app.main"]
+CMD ["opentelemetry-instrument", "python", "-m", "main"]

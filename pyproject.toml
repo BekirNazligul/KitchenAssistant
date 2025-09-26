@@ -7,4 +7,5 @@ dependencies = [
     "bedrock-agentcore==0.1.5",
     "bedrock-agentcore-starter-toolkit==0.1.14",
     "strands-agents==1.9.1",
+    "strands-agents-tools>=0.2.8",
 ]
