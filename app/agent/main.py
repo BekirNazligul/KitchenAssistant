@@ -29,7 +29,7 @@ def look_into_fridge() -> dict:
         "eggs": "12",
         "butter": "200 grams",
         "cheese": "500 grams",
-        "vegetables": ["carrots", "broccoli", "spinach"]
+        "vegetables": ["carrots", "broccoli", "spinach", "tomatoes", "potatoes"]
     }
 
 
@@ -98,7 +98,7 @@ def invoke(payload):
     user_message = payload.get("prompt")
     print("User message:", user_message)
     result = agent(user_message)
-    return {"result": response.message['content'][0]['text']}
+    return {"result": result.message['content'][0]['text']}
 
 if __name__ == "__main__":
     app.run(3000)
