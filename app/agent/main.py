@@ -90,7 +90,16 @@ strands_provider = AgentCoreMemoryToolProvider(
     namespace=namespace
 )
 
-agent = Agent(model=model, system_prompt=KITCHEN_ASSISTANT_PROMPT, tools=[strands_provider.tools, look_into_fridge])
+# Add the Bedrock knowledge model
+knowledge_model_id = "ANR2F7LXJS"
+
+# Initialize the agent with the model, system prompt, tools, and knowledge model
+agent = Agent(
+    model=model,
+    system_prompt=KITCHEN_ASSISTANT_PROMPT,
+    tools=[strands_provider.tools, look_into_fridge],
+    knowledge_model_id=knowledge_model_id
+)
 
 @app.entrypoint
 def invoke(payload):
