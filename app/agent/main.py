@@ -5,8 +5,9 @@ from bedrock_agentcore import BedrockAgentCoreApp
 from bedrock_agentcore.memory import MemoryClient
 from bedrock_agentcore.memory.constants import StrategyType
 from botocore.exceptions import ClientError
-from strands import Agent
+from strands import Agent, tool
 from strands_tools.agent_core_memory import AgentCoreMemoryToolProvider
+from strands.models import BedrockModel
 
 from prompt import KITCHEN_ASSISTANT_PROMPT
 
@@ -14,6 +15,24 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger("culinary-memory")
 
 app = BedrockAgentCoreApp()
+
+
+model = BedrockModel(
+    model_id="anthropic.claude-3-5-sonnet-20241022-v2:0",
+)
+
+@tool
+def look_into_fridge() -> dict:
+    """Returns the contents of the fridge."""
+    return {
+        "milk": "1 liter",
+        "eggs": "12",
+        "butter": "200 grams",
+        "cheese": "500 grams",
+        "vegetables": ["carrots", "broccoli", "spinach"]
+    }
+
+
 client = MemoryClient(region_name="us-west-2")
 memory_name = "CulinaryAssistant"
 
@@ -71,14 +90,15 @@ strands_provider = AgentCoreMemoryToolProvider(
     namespace=namespace
 )
 
-agent = Agent(model="anthropic.claude-3-5-sonnet-20240620-v1:0", system_prompt=KITCHEN_ASSISTANT_PROMPT, tools=strands_provider.tools)
+agent = Agent(model=model, system_prompt=KITCHEN_ASSISTANT_PROMPT, tools=[strands_provider.tools, look_into_fridge])
 
 @app.entrypoint
 def invoke(payload):
     """Your AI agent function"""
-    user_message = payload.get("prompt", "Hello! How can I help you today?")
+    user_message = payload.get("prompt")
+    print("User message:", user_message)
     result = agent(user_message)
-    return {"result": result.message}
+    return {"result": response.message['content'][0]['text']}
 
 if __name__ == "__main__":
     app.run(3000)

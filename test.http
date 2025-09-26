@@ -1,0 +1,5 @@
+###
+POST http://localhost:8080/invocations
+Content-Type: application/json
+
+{"prompt": "Based what I have in the fridge, what can I make for dinner?"}
