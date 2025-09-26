@@ -19,7 +19,7 @@ logger = logging.getLogger("culinary-memory")
 app = BedrockAgentCoreApp()
 
 
-os.environ["STRANDS_KNOWLEDGE_BASE_ID"] = "ANR2F7LXJS"
+os.environ["KNOWLEDGE_BASE_ID"] = "ANR2F7LXJS"
 
 model = BedrockModel(
     model_id="anthropic.claude-3-5-sonnet-20241022-v2:0",
