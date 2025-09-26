@@ -19,7 +19,7 @@ logger = logging.getLogger("culinary-memory")
 app = BedrockAgentCoreApp()
 
 
-os.environ["STRANDS_KNOWLEDGE_BASE_ID"] = "ANR2F7LXJS"
+os.environ["KNOWLEDGE_BASE_ID"] = "ANR2F7LXJS"
 
 model = BedrockModel(
     model_id="anthropic.claude-3-5-sonnet-20241022-v2:0",
@@ -98,7 +98,7 @@ strands_provider = AgentCoreMemoryToolProvider(
 agent = Agent(
     model=model,
     system_prompt=KITCHEN_ASSISTANT_PROMPT,
-    tools=[strands_provider.tools, look_into_fridge, retrieve],
+    tools=[look_into_fridge, retrieve],
 )
 
 @app.entrypoint
