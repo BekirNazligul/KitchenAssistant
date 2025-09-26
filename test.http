@@ -2,4 +2,6 @@
 POST http://localhost:3000/invocations
 Content-Type: application/json
 
-{"prompt": "Based what I have in the fridge, what can I make for dinner?"}
+{
+  "prompt": "{user request}"
+}

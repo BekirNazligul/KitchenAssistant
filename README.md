@@ -32,6 +32,14 @@ The Kitchen Assistant is designed to act as a virtual chef, helping users find r
 
 - **`prompt.py`**: Contains the system prompt for the agent, guiding its interactions with users to assist in recipe selection.
 
+### Chat Interface
+
+- **`app/ui/chat.py`**: A terminal-based chat interface that provides an easy way to interact with the Kitchen Assistant agent. Features include:
+  - Real-time chat with the agent
+  - Error handling for connection issues
+  - Help system with example queries
+  - Clean, formatted output
+
 ## Setup
 
 ### Prerequisites
@@ -55,13 +63,54 @@ The Kitchen Assistant is designed to act as a virtual chef, helping users find r
 
 ### Running the Application
 
-To start the Kitchen Assistant, run the following command:
+1. **Start the Agent Server:**
+   ```bash
+   uv run python app/agent/main.py
+   ```
+   The application will start on port 3000, ready to assist you with your culinary needs.
 
-```bash
-uv run python app/agent/main.py
+2. **Start the Chat UI (in a new terminal):**
+   ```bash
+   uv run python app/ui/chat.py
+   ```
+   This will launch a terminal-based chat interface to interact with your Kitchen Assistant.
+
+## Usage
+
+### Chat Interface Commands
+
+Once the chat UI is running, you can use the following commands:
+
+- **Chat**: Simply type your message and press Enter to chat with the assistant
+- **Help**: Type `help` to see example queries and capabilities
+- **Quit**: Type `quit`, `exit`, or `bye` to end the conversation
+- **Keyboard Interrupt**: Press `Ctrl+C` to exit
+
+### Example Conversations
+
+```
+👤 You: What can I cook with eggs and cheese?
+👨‍🍳 Chef: Thinking...
+
+👨‍🍳 Chef: Great question! With eggs and cheese, you have many delicious options...
 ```
 
-The application will start on port 3000, ready to assist you with your culinary needs.
+```
+👤 You: What's in my fridge?
+👨‍🍳 Chef: Thinking...
+
+👨‍🍳 Chef: Let me check your fridge for you...
+```
+
+### API Usage
+
+You can also interact with the agent directly via HTTP POST requests:
+
+```bash
+curl -X POST http://localhost:3000/invocations \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "What can I cook with eggs and cheese?"}'
+```
 
 ## Dependencies
 
